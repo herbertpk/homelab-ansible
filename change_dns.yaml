@@ -1,8 +1,0 @@
-- hosts: all
-  become: true
-  tasks:
-    - name: Add nameserver to resolv.conf
-      lineinfile:
-        path: /etc/resolv.conf
-        line: 'nameserver 1.1.1.1'
-        state: present
