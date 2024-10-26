@@ -1,6 +1,6 @@
 ---
 - name: Update APT packages
-  hosts: all
+  hosts: "{{ target }}"
   become: True
 
   tasks:
