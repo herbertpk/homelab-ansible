@@ -1,0 +1,8 @@
+- name: proxmox_cloudinit
+  hosts: "{{ template_host }}"
+  vars_files:
+    - ../vars/proxmox-template.yaml
+  gather_facts: true
+  tasks:
+    - import_role:
+        name: proxmox-templates
