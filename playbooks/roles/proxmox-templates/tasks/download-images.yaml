@@ -28,6 +28,11 @@
     next_vm_id: "{{ vmlist_json.ids.keys()  | map('int') | max + 1 }}"
   when: qm_list.stdout != ""
 
+- name: before templateStartingID
+  ansible.builtin.debug:
+    msg: "{{ next_vm_id }}"
+
+
 - name: check against minimum vm id
   ansible.builtin.set_fact:
     next_vm_id: "{{ templateStartingID | int }}"
