@@ -3,6 +3,7 @@
   vars_files:
     - ../vars/proxmox-template.yaml
   gather_facts: true
+  serial: 1 # One node at a time
   tasks:
     - include_role:
         name: proxmox-templates
