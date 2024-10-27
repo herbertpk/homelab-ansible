@@ -19,11 +19,13 @@
 #   ansible.builtin.set_fact:
 #     next_vm_id: "{{ vmlist_json.content | b64decode | from_json  | json_query('ids') | dict2items  | json_query('[].key') | map('int') | list | max + 1 }}"
 #   when: qm_list.stdout != ""
-
+- name: Decode JSON content
+  set_fact:
+    vmlist_json: "{{ vmlist.content | b64decode | from_json }}"
 
 - name: Find the next VM ID
   set_fact:
-    next_vm_id: "{{ vmlist.content | from_json.ids.keys() | map('int') | max + 1 }}"
+    next_vm_id: "{{ vmlist_json.ids.keys()  | map('int') | max + 1 }}"
   when: qm_list.stdout != ""
 
 - name: check against minimum vm id
