@@ -6,12 +6,11 @@
   ansible.builtin.slurp:
     src: /etc/pve/.vmlist
   register: vmlist
-  when: vmlist.content != ""
+
 
 - name: Parse JSON content and find next VM ID
   ansible.builtin.set_fact:
     next_vm_id: "{{ vmlist.content | b64decode | from_json  | json_query('ids') | dict2items  | json_query('[].key') | map('int') | list | max + 1 }}"
-  when: vmlist.content != ""
 
 
 - name: before templateStartingID
