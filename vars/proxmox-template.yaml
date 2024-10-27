@@ -3,7 +3,7 @@ templateMemory: 2048
 templateCores: 2
 templateDiskSize: 32G 
 importStorage: local-lvm 
-
+templateStartingID: 8000
 # cloud image configuration
 isopath: /var/isos 
 cloudimgs:
