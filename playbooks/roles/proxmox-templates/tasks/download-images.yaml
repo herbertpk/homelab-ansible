@@ -1,24 +1,17 @@
-- name: Read the VM list JSON file
-  ansible.builtin.shell:
-    cmd: qm list -full
-  register: qm_list
-
-
 - name: set default next_vm_id
   ansible.builtin.set_fact:
     next_vm_id: 100
     
-
 - name: Read the VM list JSON file
   ansible.builtin.slurp:
     src: /etc/pve/.vmlist
   register: vmlist
-  when: qm_list.stdout != ""
+  when: vmlist.content != ""
 
 - name: Parse JSON content and find next VM ID
   ansible.builtin.set_fact:
     next_vm_id: "{{ vmlist.content | b64decode | from_json  | json_query('ids') | dict2items  | json_query('[].key') | map('int') | list | max + 1 }}"
-  when: qm_list.stdout != ""
+  when: vmlist.content != ""
 
 
 - name: before templateStartingID
