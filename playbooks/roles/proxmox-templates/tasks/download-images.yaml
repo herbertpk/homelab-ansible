@@ -12,7 +12,7 @@
 - name: Read the VM list JSON file
   ansible.builtin.slurp:
     src: /etc/pve/.vmlist
-  register: vmlist_json
+  register: vmlist_content
   when: qm_list.stdout != ""
 
 
