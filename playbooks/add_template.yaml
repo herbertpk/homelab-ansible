@@ -4,5 +4,5 @@
     - ../vars/proxmox-template.yaml
   gather_facts: true
   tasks:
-    - import_role:
+    - include_role:
         name: proxmox-templates
