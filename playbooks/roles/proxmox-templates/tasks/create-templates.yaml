@@ -8,7 +8,7 @@
 
 - name: Create VMs
   ansible.builtin.shell:
-    cmd: qm create {{ (next_vm_id | int)  + ansible_loop.index  | int }} --memory {{ templateMemory }} --core {{ templateCores }} --name {{ item.templateName }} --net0 virtio,bridge=vmbr0 --description "{{ hostvars[inventory_hostname]['dynamic_fact_for_' + item.templateName |  hash('sha1')] }} {{ item.additionalDescription | default('') }}"
+    cmd: qm create {{ next_vm_id | int }} --memory {{ templateMemory }} --core {{ templateCores }} --name {{ item.templateName }} --net0 virtio,bridge=vmbr0 --description "{{ hostvars[inventory_hostname]['dynamic_fact_for_' + item.templateName |  hash('sha1')] }} {{ item.additionalDescription | default('') }}"
   register: command_result
   failed_when:
     - '"already exists" not in command_result.stderr'
@@ -28,7 +28,7 @@
 
 
 - name: set cloud init settings
-  ansible.builtin.script: "config.sh {{ (next_vm_id | int)  + ansible_loop.index  | int }} {{ ipconfig0 }} {{ isopath }}/id_rsa.pub {{ ciuser }} {{ importStorage }} {{ isopath }}/{{ item.templateName }}.qcow2"
+  ansible.builtin.script: "config.sh {{ next_vm_id | int }} {{ ipconfig0 }} {{ isopath }}/id_rsa.pub {{ ciuser }} {{ importStorage }} {{ isopath }}/{{ item.templateName }}.qcow2"
   with_items: "{{ cloudimgs }}"
   register: config
   changed_when: "'Skipping' not in config.stdout"
@@ -38,7 +38,7 @@
 
 - name: convert to template
   ansible.builtin.shell:
-    cmd: qm template {{ (next_vm_id | int)  + ansible_loop.index  | int }}
+    cmd: qm template {{ next_vm_id | int }}
   with_items: "{{ cloudimgs }}"
   loop_control:
     extended: true
